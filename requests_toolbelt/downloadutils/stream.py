@@ -25,7 +25,7 @@ def _get_filename(content_disposition):
         if k == 'filename':
             # ignore any directory paths in the filename
             filename = os.path.split(v)[1]
-            return remove_chars(filename, ['\\', '/', ':'])
+            return remove_chars(filename.strip('"'), ['\\', '/', ':'])
     return None
 
 
