@@ -14,13 +14,18 @@ _OPTION_HEADER_PIECE_RE = re.compile(
 )
 _DEFAULT_CHUNKSIZE = 512
 
+def remove_chars(filename, chars):
+    for char in chars:
+        filename = filename.replace(char, '_')
+    return filename
 
 def _get_filename(content_disposition):
     for match in _OPTION_HEADER_PIECE_RE.finditer(content_disposition):
         k, v = match.groups()
         if k == 'filename':
             # ignore any directory paths in the filename
-            return os.path.split(v)[1]
+            filename = os.path.split(v)[1]
+            return remove_chars(filename, ['\\', '/', ':'])
     return None
 
 
